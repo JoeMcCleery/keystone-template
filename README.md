@@ -7,6 +7,11 @@ Template for creating a keystone.js + vue3 + docker app
 ### Local development
 
 ```bash
-# Run docker containers in watch mode
+# Build and run docker containers in watch mode
 docker compose watch
+```
+
+```bash
+# Remove docker containers once finished
+docker compose down
 ```

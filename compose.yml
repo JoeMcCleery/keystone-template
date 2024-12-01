@@ -13,8 +13,6 @@ services:
             - node_modules/
         - action: rebuild
           path: ./backend/package.json
-        - action: rebuild
-          path: ./backend/Dockerfile
 
   frontend:
     build: ./frontend
@@ -30,5 +28,3 @@ services:
             - node_modules/
         - action: rebuild
           path: ./frontend/package.json
-        - action: rebuild
-          path: ./frontend/Dockerfile
