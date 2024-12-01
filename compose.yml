@@ -22,7 +22,14 @@ services:
     environment:
       PGADMIN_DEFAULT_EMAIL: admin@admin.com
       PGADMIN_DEFAULT_PASSWORD: root
+    entrypoint: /bin/sh -c "chmod 600 /pgpass; /entrypoint.sh;"
+    user: root
     restart: unless-stopped
+    configs:
+      - source: servers.json
+        target: /pgadmin4/servers.json
+      - source: pgpass
+        target: /pgpass
 
   backend:
     build: ./backend
@@ -58,3 +65,19 @@ services:
 
 volumes:
   pgdata:
+
+configs:
+  pgpass:
+    content: db:5432:*:admin:root
+  servers.json:
+    content: |
+      {"Servers": {"1": {
+        "Group": "Servers",
+        "Name": "Postgres",
+        "Host": "db",
+        "Port": 5432,
+        "MaintenanceDB": "keystone",
+        "Username": "admin",
+        "PassFile": "/pgpass",
+        "SSLMode": "prefer"
+      }}}
