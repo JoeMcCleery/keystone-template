@@ -42,6 +42,8 @@ const { withAuth } = createAuth({
 
     // it uses context.sudo() to do this, which bypasses any access control you might have
     //   you shouldn't use this in production
+
+    skipKeystoneWelcome: true,
   },
 })
 
