@@ -5,12 +5,12 @@
 // If you want to learn more about how lists are configured, please read
 // - https://keystonejs.com/docs/config/lists
 
-import { list } from '@keystone-6/core'
+import { graphql, list } from '@keystone-6/core'
 import { allowAll } from '@keystone-6/core/access'
 
 // see https://keystonejs.com/docs/fields/overview for the full list of fields
 //   this is a few common fields for an example
-import { text, relationship, password, timestamp, select } from '@keystone-6/core/fields'
+import { text, relationship, password, timestamp, virtual } from '@keystone-6/core/fields'
 
 // the document field is a more complicated field, so it has it's own package
 import { document } from '@keystone-6/fields-document'
@@ -28,11 +28,23 @@ export const lists = {
     //   you can find out more at https://keystonejs.com/docs/guides/auth-and-access-control
     access: allowAll,
 
+    ui: {
+      labelField: 'fullName',
+    },
+
     // this is the fields for our User list
     fields: {
       // by adding isRequired, we enforce that every User should have a name
       //   if no name is provided, an error will be displayed
-      name: text({ validation: { isRequired: true } }),
+      firstName: text({ validation: { isRequired: true } }),
+      secondName: text({ validation: { isRequired: true } }),
+
+      fullName: virtual({
+        field: graphql.field({
+          type: graphql.String,
+          resolve: ({ firstName, secondName }) => `${firstName} ${secondName}`,
+        }),
+      }),
 
       email: text({
         validation: { isRequired: true },
@@ -88,8 +100,8 @@ export const lists = {
         // this is some customisations for changing how this will look in the AdminUI
         ui: {
           displayMode: 'cards',
-          cardFields: ['name', 'email'],
-          inlineEdit: { fields: ['name', 'email'] },
+          cardFields: ['fullName', 'email'],
+          inlineEdit: { fields: ['fullName', 'email'] },
           linkToItem: true,
           inlineConnect: true,
         },
