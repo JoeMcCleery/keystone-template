@@ -38,21 +38,18 @@ services:
       - db
     ports:
       - 3000:3000
+    restart: unless-stopped
     develop:
       watch:
-        - action: sync
-          path: ./backend
-          target: /app
-          ignore:
-            - node_modules/
         - action: rebuild
-          path: ./backend/package.json
+          path: ./backend
 
   frontend:
     build: ./frontend
     container_name: frontend
     ports:
       - 5173:5173
+    restart: unless-stopped
     develop:
       watch:
         - action: sync
