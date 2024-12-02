@@ -6,6 +6,7 @@ export default function CustomNavigation({ lists, authenticatedItem }: Navigatio
     <NavigationContainer authenticatedItem={authenticatedItem}>
       <NavItem href="/">Dashboard</NavItem>
       <ListNavItems lists={lists} />
+      <NavItem href="/custom-page">Custom Page</NavItem>
     </NavigationContainer>
   )
 }
