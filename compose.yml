@@ -61,6 +61,8 @@ services:
   backend:
     build: ./backend
     container_name: ${PROJECT_SUFFIX}_backend
+    environment:
+      WATCHPACK_POLLING: true
     depends_on:
       - db
     volumes:
