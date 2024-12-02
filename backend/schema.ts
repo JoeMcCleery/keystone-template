@@ -10,7 +10,15 @@ import { allowAll } from '@keystone-6/core/access'
 
 // see https://keystonejs.com/docs/fields/overview for the full list of fields
 //   this is a few common fields for an example
-import { text, relationship, password, timestamp, virtual } from '@keystone-6/core/fields'
+import {
+  text,
+  relationship,
+  password,
+  timestamp,
+  virtual,
+  image,
+  file,
+} from '@keystone-6/core/fields'
 
 // the document field is a more complicated field, so it has it's own package
 import { document } from '@keystone-6/fields-document'
@@ -18,7 +26,7 @@ import { document } from '@keystone-6/fields-document'
 
 // when using Typescript, you can refine your types to a stricter subset by importing
 // the generated types from '.keystone/types'
-import { type Lists } from '.keystone/types'
+import type { Lists } from '.keystone/types'
 
 export const lists = {
   User: list({
@@ -55,12 +63,56 @@ export const lists = {
 
       password: password({ validation: { isRequired: true } }),
 
+      image: relationship({
+        ref: 'Image',
+        ui: {
+          displayMode: 'cards',
+          cardFields: ['name', 'image'],
+          linkToItem: true,
+          inlineConnect: true,
+          inlineCreate: { fields: ['name', 'altText', 'image'] },
+        },
+      }),
+
       // we can use this field to see what Posts this User has authored
       //   more on that in the Post list below
       posts: relationship({ ref: 'Post.author', many: true }),
 
       createdAt: timestamp({
         // this sets the timestamp to Date.now() when the user is first created
+        defaultValue: { kind: 'now' },
+      }),
+    },
+  }),
+
+  Image: list({
+    access: allowAll,
+
+    fields: {
+      name: text({
+        validation: {
+          isRequired: true,
+        },
+      }),
+      altText: text(),
+      image: image({ storage: 's3_images' }),
+      createdAt: timestamp({
+        defaultValue: { kind: 'now' },
+      }),
+    },
+  }),
+
+  File: list({
+    access: allowAll,
+
+    fields: {
+      name: text({
+        validation: {
+          isRequired: true,
+        },
+      }),
+      file: file({ storage: 's3_files' }),
+      createdAt: timestamp({
         defaultValue: { kind: 'now' },
       }),
     },
@@ -101,7 +153,6 @@ export const lists = {
         ui: {
           displayMode: 'cards',
           cardFields: ['fullName', 'email'],
-          inlineEdit: { fields: ['fullName', 'email'] },
           linkToItem: true,
           inlineConnect: true,
         },
@@ -128,6 +179,11 @@ export const lists = {
           inlineConnect: true,
           inlineCreate: { fields: ['name'] },
         },
+      }),
+
+      createdAt: timestamp({
+        // this sets the timestamp to Date.now() when the user is first created
+        defaultValue: { kind: 'now' },
       }),
     },
   }),
