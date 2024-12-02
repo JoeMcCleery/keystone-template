@@ -14,13 +14,16 @@ import { lists } from './schema'
 // when you write your list-level access control functions, as they typically rely on session data
 import { withAuth, session } from './auth'
 
+import { storage } from './storage'
+
 export default withAuth(
   config({
     db: {
       provider: 'postgresql',
-      url: 'postgres://admin:root@db:5432/keystone',
+      url: process.env.DATABASE_URL || 'postgres://admin:root@db:5432/keystone',
     },
     lists,
     session,
+    storage,
   })
 )
