@@ -2,5 +2,3 @@ node_modules
 .keystone/
 keystone.db
 *.log
-schema.graphql
-schema.prisma
