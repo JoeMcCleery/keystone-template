@@ -38,6 +38,9 @@ export const lists = {
 
     ui: {
       labelField: 'fullName',
+      listView: {
+        initialColumns: ['firstName', 'secondName', 'email'],
+      },
     },
 
     // this is the fields for our User list
