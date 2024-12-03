@@ -49,6 +49,7 @@ export const lists = {
       //   if no name is provided, an error will be displayed
       firstName: text({ validation: { isRequired: true } }),
       secondName: text({ validation: { isRequired: true } }),
+      thirdName: text(),
 
       fullName: virtual({
         field: graphql.field({

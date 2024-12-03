@@ -6,15 +6,9 @@
 //   you can find out more at https://keystonejs.com/docs/apis/config
 
 import { config } from '@keystone-6/core'
-
-// to keep this file tidy, we define our schema in a different file
-import { lists } from './schema'
-
-// authentication is configured separately here too, but you might move this elsewhere
-// when you write your list-level access control functions, as they typically rely on session data
-import { withAuth, session } from './auth'
-
-import { storage } from './storage'
+import { lists } from './src/schema'
+import { withAuth, session } from './src/auth'
+import { storage } from './src/storage'
 
 export default withAuth(
   config({
