@@ -22,14 +22,14 @@ import { createAuth } from '@keystone-6/auth'
 import { statelessSessions } from '@keystone-6/core/session'
 
 // withAuth is a function we can use to wrap our base configuration
-const { withAuth } = createAuth({
+export const { withAuth } = createAuth({
   listKey: 'User',
   identityField: 'email',
 
   // this is a GraphQL query fragment for fetching what data will be attached to a context.session
   //   this can be helpful for when you are writing your access control functions
   //   you can find out more at https://keystonejs.com/docs/guides/auth-and-access-control
-  sessionData: 'fullName createdAt',
+  sessionData: 'id fullName isAdmin',
   secretField: 'password',
 
   // WARNING: remove initFirstItem functionality in production
@@ -39,6 +39,7 @@ const { withAuth } = createAuth({
     //   you are asking the Keystone AdminUI to create a new user
     //   providing inputs for these fields
     fields: ['firstName', 'secondName', 'email', 'password'],
+    itemData: { isAdmin: true },
 
     // it uses context.sudo() to do this, which bypasses any access control you might have
     //   you shouldn't use this in production
@@ -53,9 +54,7 @@ const { withAuth } = createAuth({
 const sessionMaxAge = 60 * 60 * 24 * 30
 
 // you can find out more at https://keystonejs.com/docs/apis/session#session-api
-const session = statelessSessions({
+export const session = statelessSessions({
   maxAge: sessionMaxAge,
-  secret: process.env.SESSION_SECRET,
+  secret: process.env.SESSION_SECRET || '-- DEV COOKIE SECRET; CHANGE ME --',
 })
-
-export { withAuth, session }

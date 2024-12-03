@@ -13,6 +13,7 @@ type User {
   posts(where: PostWhereInput! = {}, orderBy: [PostOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: PostWhereUniqueInput): [Post!]
   postsCount(where: PostWhereInput! = {}): Int
   createdAt: DateTime
+  isAdmin: Boolean
 }
 
 type PasswordState {
@@ -38,6 +39,7 @@ input UserWhereInput {
   image: ImageWhereInput
   posts: PostManyRelationFilter
   createdAt: DateTimeNullableFilter
+  isAdmin: BooleanFilter
 }
 
 input IDFilter {
@@ -102,6 +104,11 @@ input DateTimeNullableFilter {
   not: DateTimeNullableFilter
 }
 
+input BooleanFilter {
+  equals: Boolean
+  not: BooleanFilter
+}
+
 input UserOrderByInput {
   id: OrderDirection
   firstName: OrderDirection
@@ -109,6 +116,7 @@ input UserOrderByInput {
   thirdName: OrderDirection
   email: OrderDirection
   createdAt: OrderDirection
+  isAdmin: OrderDirection
 }
 
 enum OrderDirection {
@@ -125,6 +133,7 @@ input UserUpdateInput {
   image: ImageRelateToOneForUpdateInput
   posts: PostRelateToManyForUpdateInput
   createdAt: DateTime
+  isAdmin: Boolean
 }
 
 input ImageRelateToOneForUpdateInput {
@@ -154,6 +163,7 @@ input UserCreateInput {
   image: ImageRelateToOneForCreateInput
   posts: PostRelateToManyForCreateInput
   createdAt: DateTime
+  isAdmin: Boolean
 }
 
 input ImageRelateToOneForCreateInput {

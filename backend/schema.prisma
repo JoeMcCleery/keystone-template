@@ -22,6 +22,7 @@ model User {
   imageId    String?   @map("image")
   posts      Post[]    @relation("Post_author")
   createdAt  DateTime? @default(now())
+  isAdmin    Boolean   @default(false)
 
   @@index([imageId])
 }

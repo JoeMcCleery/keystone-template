@@ -9,6 +9,7 @@ import { config } from '@keystone-6/core'
 import { lists } from './src/schema'
 import { withAuth, session } from './src/auth'
 import { storage } from './src/storage'
+import { isAdmin } from './src/auth/access'
 
 export default withAuth(
   config({
@@ -19,5 +20,8 @@ export default withAuth(
     lists,
     session,
     storage,
+    ui: {
+      isAccessAllowed: isAdmin,
+    },
   })
 )
